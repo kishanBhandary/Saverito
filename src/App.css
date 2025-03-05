@@ -1,22 +1,16 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Existing styles (you would keep your current styles) */
 .app-container {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 70px; /* Add this line to create space for the footer */
+  padding: 1rem;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  position: relative;
+  margin-bottom: 1.5rem;
 }
 
 .menu-button,
@@ -24,55 +18,165 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #0a0a23;
 }
 
 .main-content {
-  padding: 1rem 2rem;
+  flex: 1;
 }
 
 .title {
-  color: #0D1A75;
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-top: 1rem;
-  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #0a1172;
+ 
 }
 
-
 .subtitle {
-  font-weight: 600;
+  font-size: 2.5rem;
+  font-weight: normal;
+  color: hsl(0, 0%, 2%);
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: white;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  padding: 0.75rem 0;
+  margin-top: auto;
 }
 
 .footer-nav {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: space-between;
 }
 
 .footer-button {
   background: none;
   border: none;
   cursor: pointer;
-  color: #9ca3af;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 0.5rem;
 }
 
 .footer-button.active {
-  color: #1e40af;
+  color: #0000ff;
+}
+
+/* New styles for search and categories */
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.search-icon {
+  color: #666;
+  margin-right: 0.5rem;
+}
+
+.search-input {
+  border: none;
+  background: transparent;
+  flex: 1;
+  font-size: 1rem;
+  outline: none;
+}
+
+.category-filters {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.category-button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-button.active {
+  background-color: #0a1172;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(10, 17, 114, 0.3);
+}
+
+.category-button:not(.active):hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+/* Animation for category selection */
+.category-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.category-button:active::before {
+  left: 0;
+}
+
+/* Sliding indicator animation */
+.category-filters::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background-color: #0a1172;
+  transition: all 0.3s ease;
+  border-radius: 3px;
+}
+
+.food-items-container {
+  margin-top: 1.5rem;
+}
+
+/* Animation for category items entering */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.food-item {
+  animation: slideIn 0.3s ease forwards;
+}
+
+/* Add staggered delay for multiple items */
+.food-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.food-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.food-item:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.food-item:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.food-item:nth-child(5) {
+  animation-delay: 0.25s;
 }
 

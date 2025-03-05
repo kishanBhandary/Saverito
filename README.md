@@ -23,13 +23,12 @@ Make sure you have the following installed:
 ### 1️⃣ Clone the Repository  
 To clone this repository, run the following command:  
 ```bash
-git clone <repository_url>
-
+git clone https://github.com/kishanBhandary/QuickBite.git
 
 
  Navigate to the Project Directory
 
-cd quick-bites
+cd my-canteen-app
 
 3️⃣ Install Dependencies with Bun
 

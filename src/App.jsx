@@ -23,7 +23,7 @@ function App() {
 
       <main className="main-content">
         <h1 className="title">
-          Quick Bites
+         Saverito
           <br />
           <span className="subtitle">just for you</span>
         </h1>

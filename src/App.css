@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem; /* Reduced gap */
+  margin-bottom: 1.5rem;
 }
 
 .menu-button,
@@ -24,41 +24,17 @@
   flex: 1;
 }
 
-@keyframes slideInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 .title {
   font-size: 3rem;
-  margin-bottom: 0.5rem; /* Reduced gap */
+  margin-bottom: 2rem;
   color: #0a1172;
-  animation: slideInLeft 1s ease-in-out;
 }
 
 .subtitle {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: normal;
   color: hsl(0, 0%, 2%);
-  margin-top: 0; /* Ensuring no unnecessary gap */
 }
-
-.footer {
-  margin-top: 2rem; /* Prevent excessive space */
-  padding-top: 1rem;
-  border-top: 1px solid rgba(10, 17, 114, 0.1);
-}
-
-.food-items-container {
-  margin-top: 1rem; /* Reduced spacing */
-}
-
 
 .footer {
   margin-top: auto;
@@ -78,7 +54,7 @@
   padding: 0.8rem;
   position: relative;
   transition: all 0.3s ease;
-  color: #0a1172;
+  color: #666;
   border-radius: 50%;
   overflow: hidden;
 }
@@ -261,7 +237,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: #0a1172;
+  background: rgba(255, 255, 255, 0.2);
   transition: all 0.4s ease;
   z-index: -1;
 }
@@ -283,6 +259,9 @@
 
 .food-items-container {
   margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
 }
 
 /* Animation for category items entering */
@@ -299,6 +278,16 @@
 
 .food-item {
   animation: slideIn 0.3s ease forwards;
+  background-color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.food-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Add staggered delay for multiple items */
@@ -316,5 +305,17 @@
 }
 .food-item:nth-child(5) {
   animation-delay: 0.25s;
+}
+.food-item:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.food-item:nth-child(7) {
+  animation-delay: 0.35s;
+}
+.food-item:nth-child(8) {
+  animation-delay: 0.4s;
+}
+.food-item:nth-child(9) {
+  animation-delay: 0.45s;
 }
 

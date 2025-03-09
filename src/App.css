@@ -36,98 +36,155 @@
   color: hsl(0, 0%, 2%);
 }
 
+/* PREMIUM FOOTER ANIMATIONS */
 .footer {
   margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(10, 17, 114, 0.1);
+  padding: 0.5rem;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 .footer-nav {
   display: flex;
   justify-content: space-between;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
+  padding: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated gradient border */
+.footer-nav::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #0a1172, #4e54c8, #8f94fb, #4e54c8, #0a1172);
+  border-radius: 22px;
+  z-index: -1;
+  animation: borderRotate 4s linear infinite;
+}
+
+@keyframes borderRotate {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 130% 0%;
+  }
 }
 
 .footer-button {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.8rem;
+  padding: 1rem;
   position: relative;
-  transition: all 0.3s ease;
-  color: #666;
+  color: #888;
   border-radius: 50%;
-  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1;
 }
 
-/* Footer button hover animations */
-.footer-button::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 3px;
-  background-color: #0a1172;
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-  border-radius: 3px;
-}
-
-.footer-button:hover::after {
-  width: 70%;
-}
-
-.footer-button:hover {
-  transform: translateY(-5px);
-  color: #0a1172;
-}
-
-/* Active footer button styles */
+/* Neon glow effect for active button */
 .footer-button.active {
   color: #0a1172;
+  text-shadow: 0 0 10px rgba(10, 17, 114, 0.5);
+  transform: translateY(-10px);
+}
+
+/* Morphing background for active button */
+.footer-button.active::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 45px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(10, 17, 114, 0.3);
+  z-index: -1;
+}
+
+/* Floating particles effect */
+@keyframes floatingParticles {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 .footer-button.active::after {
-  width: 70%;
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(10, 17, 114, 0.3);
+  box-shadow: -15px 10px 0 -2px rgba(10, 17, 114, 0.2), 15px 15px 0 -2px rgba(10, 17, 114, 0.2), 0px 20px 0 -2px
+    rgba(10, 17, 114, 0.2);
+  animation: floatingParticles 1.5s ease-out infinite;
 }
 
-/* Click animation for footer buttons */
-@keyframes clickPop {
+/* Magnetic hover effect */
+.footer-button:hover:not(.active) {
+  transform: scale(1.15);
+  color: #0a1172;
+}
+
+/* Explosive click animation */
+@keyframes explode {
   0% {
+    box-shadow: 0 0 0 0 rgba(10, 17, 114, 0.7);
     transform: scale(1);
   }
   50% {
-    transform: scale(0.85);
+    box-shadow: 0 0 0 15px rgba(10, 17, 114, 0);
+    transform: scale(0.9);
   }
   100% {
+    box-shadow: 0 0 0 0 rgba(10, 17, 114, 0);
     transform: scale(1);
   }
 }
 
 .footer-button:active {
-  animation: clickPop 0.3s ease;
+  animation: explode 0.5s cubic-bezier(0.1, 0.7, 0.1, 1);
 }
 
-/* Active state animation */
-@keyframes activeGlow {
+/* 3D rotation for icons */
+@keyframes rotate3d {
   0% {
-    box-shadow: 0 0 0 0 rgba(10, 17, 114, 0.4);
+    transform: rotate3d(0, 1, 0, 0deg);
   }
-  70% {
-    box-shadow: 0 0 0 10px rgba(10, 17, 114, 0);
+  50% {
+    transform: rotate3d(0, 1, 0, 180deg);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(10, 17, 114, 0);
+    transform: rotate3d(0, 1, 0, 360deg);
   }
 }
 
-.footer-button.active {
-  animation: activeGlow 2s infinite;
-  background-color: rgba(10, 17, 114, 0.1);
-  transform: translateY(-5px);
+.footer-button:hover:not(.active) svg {
+  animation: rotate3d 0.8s ease;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
 }
 
-/* Active icon bounce animation */
+/* Bouncy animation for active icon */
 @keyframes bounce {
   0%,
   20%,
@@ -137,38 +194,36 @@
     transform: translateY(0);
   }
   40% {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
   }
   60% {
-    transform: translateY(-2px);
+    transform: translateY(-5px);
   }
 }
 
 .footer-button.active svg {
-  animation: bounce 2s ease infinite;
+  animation: bounce 2s infinite;
+  filter: drop-shadow(0 2px 5px rgba(10, 17, 114, 0.4));
 }
 
-/* Hover animation (different from active) */
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(5deg);
-  }
-  50% {
-    transform: rotate(0deg);
-  }
-  75% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
+/* Liquid bubble effect on hover */
+.footer-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(10, 17, 114, 0.2) 0%, rgba(10, 17, 114, 0) 70%);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: width 0.5s ease, height 0.5s ease;
+  z-index: -1;
 }
 
-.footer-button:hover:not(.active) svg {
-  animation: wiggle 0.5s ease;
+.footer-button:hover::before {
+  width: 80px;
+  height: 80px;
 }
 
 /* New styles for search and categories */
@@ -262,6 +317,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1rem;
+  padding-bottom: 80px; /* Add space for the footer */
 }
 
 /* Animation for category items entering */

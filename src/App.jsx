@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 "use client"
 
 import { useState, useRef } from "react"
@@ -8,24 +9,47 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
-  const [, setAnimating] = useState(false)
+  const [animating, setAnimating] = useState(false)
   const [activeFooterTab, setActiveFooterTab] = useState("home")
+  const [favorites, setFavorites] = useState([])
   const categoryRef = useRef(null)
 
-  // Categories for food filtering - added Lunch and Special
+  // Categories for food filtering
   const categories = ["All", "BreakFast", "Snaks", "Lunch", "Special"]
 
-  // Sample food items (you can replace with your actual data)
+  // Updated food items with images and prices
   const foodItems = [
-    { id: 1, name: "Pancakes", category: "BreakFast" },
-    { id: 2, name: "Eggs Benedict", category: "BreakFast" },
-    { id: 3, name: "Chips", category: "Snaks" },
-    { id: 4, name: "Cookies", category: "Snaks" },
-    { id: 5, name: "Fruit Salad", category: "All" },
-    { id: 6, name: "Burger", category: "Lunch" },
-    { id: 7, name: "Pasta", category: "Lunch" },
-    { id: 8, name: "Chef's Special", category: "Special" },
-    { id: 9, name: "Weekend Platter", category: "Special" },
+    {
+      id: 1,
+      name: "Veg Noodles",
+      category: "Lunch",
+      price: 50.0,
+      image: "./veg.jpeg"
+    },
+    {
+      id: 2,
+      name: "Chicken Noodles",
+      category: "Lunch",
+      price: 70.0,
+      image:
+        "./non veg.jpeg",
+    },
+    {
+      id: 3,
+      name: "Chicken Fried Rice",
+      category: "Lunch",
+      price: 70.0,
+      image:
+        "./nonfried.jpeg",
+    },
+    {
+      id: 4,
+      name: "Veg Fried Rice",
+      category: "Lunch",
+      price: 50.0,
+      image:
+        "./vegfried.jpeg",
+    },
   ]
 
   // Handle category change with animation
@@ -33,7 +57,6 @@ function App() {
     setAnimating(true)
     setActiveCategory(category)
 
-    // Scroll the selected category into view
     const categoryElement = document.getElementById(`category-${category}`)
     if (categoryElement && categoryRef.current) {
       const container = categoryRef.current
@@ -49,12 +72,20 @@ function App() {
     setActiveFooterTab(tab)
   }
 
+  // Toggle favorite
+  const toggleFavorite = (itemId) => {
+    setFavorites((prev) => (prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]))
+  }
+
   // Filter food items based on category and search
   const filteredItems = foodItems.filter((item) => {
     const matchesCategory = activeCategory === "All" || item.category === activeCategory
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
+
+  // Get favorite items
+  const favoriteItems = foodItems.filter((item) => favorites.includes(item.id))
 
   return (
     <div className="app-container">
@@ -103,9 +134,22 @@ function App() {
 
         {/* Food items */}
         <div className="food-items-container">
-          {filteredItems.map((item) => (
+          {(activeFooterTab === "favorites" ? favoriteItems : filteredItems).map((item) => (
             <div key={item.id} className="food-item">
-              {item.name} - {item.category}
+              <div className="food-item-image">
+                <img src={item.image || "/placeholder.svg"} alt={item.name} />
+                <button
+                  className={`favorite-button ${favorites.includes(item.id) ? "active" : ""}`}
+                  onClick={() => toggleFavorite(item.id)}
+                  aria-label={favorites.includes(item.id) ? "Remove from favorites" : "Add to favorites"}
+                >
+                  <Heart className={favorites.includes(item.id) ? "filled" : ""} size={20} />
+                </button>
+              </div>
+              <div className="food-item-details">
+                <h3>{item.name}</h3>
+                <p className="price">₹{item.price.toFixed(2)}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -124,6 +168,7 @@ function App() {
             onClick={() => handleFooterTabChange("favorites")}
           >
             <Heart size={24} />
+            {favorites.length > 0 && <span className="favorite-count">{favorites.length}</span>}
           </button>
           <button
             className={`footer-button ${activeFooterTab === "profile" ? "active" : ""}`}

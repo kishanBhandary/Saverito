@@ -42,21 +42,13 @@ function App() {
       image:
         "./nonfried.jpeg",
     },
-    {
-      id: 4,
-      name: "Veg Fried Rice",
-      category: "Lunch",
-      price: 50.0,
-      image:
-        "./vegfried.jpeg",
-    },
+    
   ]
 
   // Handle category change with animation
   const handleCategoryChange = (category) => {
     setAnimating(true)
-    setActiveCategory(category)
-
+    setActiveCatcd 
     const categoryElement = document.getElementById(`category-${category}`)
     if (categoryElement && categoryRef.current) {
       const container = categoryRef.current

@@ -29,7 +29,7 @@ function App() {
 
   // Categories for food filtering
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const categories = ["All", "BreakFast", "Snaks", "Lunch", "Special", "Desserts", "Drinks", "Combos"]
+  const categories = ["All", "BreakFast", "Snaks", "Lunch"]
 
   // Updated food items with images and prices
   const foodItems = [
@@ -39,7 +39,7 @@ function App() {
       category: "Lunch",
       price: 50.0,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%20From%202025-03-11%2022-27-59-CfqSopFsvZATKquO7sMNPuQEbqhEhF.png",
+        "./veg.jpeg",
     },
     {
       id: 2,
@@ -47,7 +47,7 @@ function App() {
       category: "Lunch",
       price: 70.0,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%20From%202025-03-11%2022-27-59-CfqSopFsvZATKquO7sMNPuQEbqhEhF.png",
+        "./non veg.jpeg ",
     },
     {
       id: 3,
@@ -55,7 +55,7 @@ function App() {
       category: "Lunch",
       price: 70.0,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%20From%202025-03-11%2022-27-59-CfqSopFsvZATKquO7sMNPuQEbqhEhF.png",
+        "./nonfried.jpeg",
     },
     {
       id: 4,
@@ -63,7 +63,7 @@ function App() {
       category: "Lunch",
       price: 50.0,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%20From%202025-03-11%2022-27-59-CfqSopFsvZATKquO7sMNPuQEbqhEhF.png",
+        "./vegfried.jpeg",
     },
   ]
 

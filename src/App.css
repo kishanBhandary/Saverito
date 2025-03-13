@@ -14,7 +14,8 @@
 }
 
 .menu-button,
-.cart-button {
+.cart-button,
+.back-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -22,6 +23,7 @@
 
 .main-content {
   flex: 1;
+  transition: all 0.3s ease;
 }
 
 .title {
@@ -36,7 +38,7 @@
   color: hsl(0, 0%, 2%);
 }
 
-/* PREMIUM FOOTER ANIMATIONS */
+/* NEW FOOTER ANIMATIONS */
 .footer {
   margin-top: auto;
   padding: 0.5rem;
@@ -48,35 +50,32 @@
 .footer-nav {
   display: flex;
   justify-content: space-between;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 0.75rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-/* Animated gradient border */
+/* Subtle gradient background */
 .footer-nav::before {
   content: "";
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #0a1172, #4e54c8, #8f94fb, #4e54c8, #0a1172);
-  border-radius: 22px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(10, 17, 114, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
   z-index: -1;
-  animation: borderRotate 4s linear infinite;
-}
-
-@keyframes borderRotate {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 130% 0%;
-  }
+  transition: all 0.5s ease;
 }
 
 .footer-button {
@@ -86,147 +85,103 @@
   padding: 1rem;
   position: relative;
   color: #888;
-  border-radius: 50%;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
 }
 
+/* New favorite count style */
 .footer-button .favorite-count {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 5px;
   background-color: #ff4b4b;
   color: white;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
+  border-radius: 10px;
+  min-width: 18px;
+  height: 18px;
+  font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  transform-origin: center;
+  animation: pulse 2s infinite;
+  padding: 0 5px;
 }
 
-.footer-button:hover .favorite-count {
-  transform: scale(1.1);
-}
-
-/* Neon glow effect for active button */
-.footer-button.active {
-  color: #0a1172;
-  text-shadow: 0 0 10px rgba(10, 17, 114, 0.5);
-  transform: translateY(-10px);
-}
-
-/* Morphing background for active button */
-.footer-button.active::before {
-  content: "";
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 45px;
-  height: 45px;
-  background-color: white;
-  border-radius: 50%;
-  box-shadow: 0 5px 15px rgba(10, 17, 114, 0.3);
-  z-index: -1;
-}
-
-/* Floating particles effect */
-@keyframes floatingParticles {
+@keyframes pulse {
   0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
   100% {
-    transform: translateY(-60px) rotate(360deg);
-    opacity: 0;
+    transform: scale(1);
   }
+}
+
+/* New active button style - slide up with background */
+.footer-button.active {
+  color: #0a1172;
+  transform: translateY(-8px);
+  background-color: rgba(10, 17, 114, 0.1);
+}
+
+/* Animated indicator line */
+.footer-button::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background-color: #0a1172;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
 
 .footer-button.active::after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: rgba(10, 17, 114, 0.3);
-  box-shadow: -15px 10px 0 -2px rgba(10, 17, 114, 0.2), 15px 15px 0 -2px rgba(10, 17, 114, 0.2), 0px 20px 0 -2px
-    rgba(10, 17, 114, 0.2);
-  animation: floatingParticles 1.5s ease-out infinite;
+  width: 20px;
 }
 
-/* Magnetic hover effect */
+/* Hover effect - subtle background */
 .footer-button:hover:not(.active) {
-  transform: scale(1.15);
-  color: #0a1172;
+  background-color: rgba(10, 17, 114, 0.05);
+  transform: translateY(-3px);
 }
 
-/* Explosive click animation */
-@keyframes explode {
-  0% {
-    box-shadow: 0 0 0 0 rgba(10, 17, 114, 0.7);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 0 15px rgba(10, 17, 114, 0);
-    transform: scale(0.9);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(10, 17, 114, 0);
-    transform: scale(1);
-  }
+/* Icon animations */
+.footer-button svg {
+  transition: all 0.3s ease;
 }
 
-.footer-button:active {
-  animation: explode 0.5s cubic-bezier(0.1, 0.7, 0.1, 1);
-}
-
-/* 3D rotation for icons */
-@keyframes rotate3d {
-  0% {
-    transform: rotate3d(0, 1, 0, 0deg);
-  }
-  50% {
-    transform: rotate3d(0, 1, 0, 180deg);
-  }
-  100% {
-    transform: rotate3d(0, 1, 0, 360deg);
-  }
-}
-
+/* Scale effect on hover */
 .footer-button:hover:not(.active) svg {
-  animation: rotate3d 0.8s ease;
-  transform-style: preserve-3d;
-  backface-visibility: visible;
+  transform: scale(1.2);
 }
 
-/* Bouncy animation for active icon */
-@keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
+/* Continuous floating animation for active icon */
+@keyframes float {
+  0% {
     transform: translateY(0);
   }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
+  50% {
     transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
 .footer-button.active svg {
-  animation: bounce 2s infinite;
-  filter: drop-shadow(0 2px 5px rgba(10, 17, 114, 0.4));
+  animation: float 2s ease-in-out infinite;
+  filter: drop-shadow(0 2px 3px rgba(10, 17, 114, 0.3));
 }
 
-/* Liquid bubble effect on hover */
+/* Click animation - ripple effect */
 .footer-button::before {
   content: "";
   position: absolute;
@@ -237,13 +192,16 @@
   background: radial-gradient(circle, rgba(10, 17, 114, 0.2) 0%, rgba(10, 17, 114, 0) 70%);
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  transition: width 0.5s ease, height 0.5s ease;
   z-index: -1;
+  opacity: 0;
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
 }
 
-.footer-button:hover::before {
+.footer-button:active::before {
   width: 80px;
   height: 80px;
+  opacity: 1;
+  transition: width 0.4s ease, height 0.4s ease, opacity 0s;
 }
 
 /* New styles for search and categories */
@@ -269,59 +227,94 @@
   outline: none;
 }
 
+/* Enhanced Category Styles */
+.category-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
 .category-filters {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   overflow-x: auto;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
+  padding: 0.5rem 0.25rem;
   position: relative;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.75rem;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.category-filters::-webkit-scrollbar {
+  display: none;
 }
 
 .category-button {
-  background: none;
+  background: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 30px;
   white-space: nowrap;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  scroll-snap-align: start;
+  color: #555;
 }
 
 .category-button.active {
-  background-color: #0a1172;
+  background: linear-gradient(135deg, #0a1172, #4e54c8);
   color: white;
   transform: scale(1.05);
-  box-shadow: 0 2px 8px rgba(10, 17, 114, 0.3);
+  box-shadow: 0 4px 12px rgba(10, 17, 114, 0.3);
 }
 
 .category-button:not(.active):hover {
-  background-color: #f0f0f0;
+  background-color: #f8f8f8;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Animation for category selection */
-.category-button::before {
-  content: "";
+/* Scroll buttons for categories */
+.category-scroll-button {
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.4s ease;
-  z-index: -1;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  transition: all 0.3s ease;
 }
 
-.category-button:active::before {
-  left: 0;
+.category-scroll-button:hover {
+  background: #f8f8f8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Sliding indicator animation */
+.category-scroll-button.left {
+  left: -8px;
+}
+
+.category-scroll-button.right {
+  right: -8px;
+}
+
+/* Active category indicator */
 .category-filters::after {
   content: "";
   position: absolute;
@@ -330,35 +323,87 @@
   background-color: #0a1172;
   transition: all 0.3s ease;
   border-radius: 3px;
+  opacity: 0;
 }
 
-/* Updated Food Item Styles */
-.food-items-container {
+/* Updated Food Item Styles with Responsive Sizing */
+.food-items-container,
+.favorites-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
+  gap: 1.5rem;
   padding: 1rem 0;
-  margin-bottom: 70px;
+  margin-bottom: 80px;
+}
+
+/* Larger items on desktop */
+@media (min-width: 1200px) {
+  .food-items-container,
+  .favorites-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .food-item {
+    max-width: 280px;
+  }
+}
+
+/* Medium sized screens */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .food-items-container,
+  .favorites-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Tablets */
+@media (min-width: 481px) and (max-width: 767px) {
+  .food-items-container,
+  .favorites-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .food-items-container,
+  .favorites-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .food-item {
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.8rem;
+  }
 }
 
 .food-item {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   position: relative;
+  cursor: pointer;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .food-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .food-item-image {
   position: relative;
   width: 100%;
-  padding-top: 100%; /* 1:1 Aspect Ratio */
+  padding-top: 100%;
   overflow: hidden;
 }
 
@@ -369,7 +414,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease;
 }
 
 .food-item:hover .food-item-image img {
@@ -380,21 +425,21 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   z-index: 2;
 }
 
 .favorite-button:hover {
+  background: white;
   transform: scale(1.1);
 }
 
@@ -417,20 +462,60 @@
 
 .food-item-details {
   padding: 1rem;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 20%);
 }
 
 .food-item-details h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #333;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .price {
   margin: 0.5rem 0 0;
   color: #0a1172;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Empty Favorites State */
+.empty-favorites {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.empty-favorites svg {
+  color: #ddd;
+  margin-bottom: 1rem;
+}
+
+.empty-favorites p {
+  font-size: 1.2rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+.browse-menu-button {
+  background-color: #0a1172;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
   font-weight: 600;
-  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.browse-menu-button:hover {
+  background-color: #080d4e;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(10, 17, 114, 0.3);
 }
 
 /* Animation for new items */
@@ -462,20 +547,10 @@
 .food-item:nth-child(4) {
   animation-delay: 0.4s;
 }
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .food-items-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-  }
-
-  .food-item-details h3 {
-    font-size: 0.9rem;
-  }
-
-  .price {
-    font-size: 1rem;
-  }
+.food-item:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.food-item:nth-child(6) {
+  animation-delay: 0.6s;
 }
 

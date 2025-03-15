@@ -66,6 +66,14 @@ function App() {
       image:
         "./vegfried.jpeg",
     },
+    {
+      id: 5,
+      name: "Veg Fried Rice",
+      category: "Lunch",
+      price: 50.0,
+      image:
+        "./vegfried.jpeg",
+    },
   ]
 
   // Mock order history data

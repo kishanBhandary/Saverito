@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 "use client"
 
 import { useState, useRef, useEffect } from "react"
@@ -40,7 +39,7 @@ function App() {
       category: "Lunch",
       price: 50.0,
       image:
-        "./veg.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%20From%202025-03-11%2022-27-59-CfqSopFsvZATKquO7sMNPuQEbqhEhF.png",
     },
     {
       id: 2,
@@ -48,7 +47,7 @@ function App() {
       category: "Lunch",
       price: 70.0,
       image:
-        "./non veg.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%20From%202025-03-11%2022-27-59-CfqSopFsvZATKquO7sMNPuQEbqhEhF.png",
     },
     {
       id: 3,
@@ -56,7 +55,7 @@ function App() {
       category: "Lunch",
       price: 70.0,
       image:
-        "./nonfried.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%20From%202025-03-11%2022-27-59-CfqSopFsvZATKquO7sMNPuQEbqhEhF.png",
     },
     {
       id: 4,
@@ -64,15 +63,7 @@ function App() {
       category: "Lunch",
       price: 50.0,
       image:
-        "./vegfried.jpeg",
-    },
-    {
-      id: 5,
-      name: "Veg Fried Rice",
-      category: "Lunch",
-      price: 50.0,
-      image:
-        "./vegfried.jpeg",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%20From%202025-03-11%2022-27-59-CfqSopFsvZATKquO7sMNPuQEbqhEhF.png",
     },
   ]
 
@@ -103,8 +94,8 @@ function App() {
 
   // Mock user profile data
   const userProfile = {
-    name: "Kishan C Bhandary",
-    email: "kishan.doe@example.com",
+    name: "John Doe",
+    email: "john.doe@example.com",
     phone: "+1 234 567 8900",
     address: "123 Food Street, Flavor Town, FT 12345",
   }
@@ -214,10 +205,17 @@ function App() {
     }
   }
 
-  // Handle footer tab change
+  // Update the handleFooterTabChange function to add the sliding indicator class
   const handleFooterTabChange = (tab) => {
     // Add transition animation
     document.querySelector(".main-content")?.classList.add("page-transition")
+
+    // Update the footer nav class for the sliding indicator
+    const footerNav = document.querySelector(".footer-nav")
+    if (footerNav) {
+      footerNav.classList.remove("home-active", "favorites-active", "profile-active", "history-active")
+      footerNav.classList.add(`${tab}-active`)
+    }
 
     setTimeout(() => {
       setActiveFooterTab(tab)
@@ -531,6 +529,15 @@ function App() {
         return null
     }
   }
+
+  // Add this useEffect to set the initial footer nav class
+  useEffect(() => {
+    // Set initial footer nav class
+    const footerNav = document.querySelector(".footer-nav")
+    if (footerNav) {
+      footerNav.classList.add(`${activeFooterTab}-active`)
+    }
+  }, [])
 
   return (
     <div className="app-container">

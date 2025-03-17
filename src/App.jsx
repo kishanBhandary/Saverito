@@ -87,7 +87,14 @@ function App() {
       id: 103,
       date: "Mar 10, 1:45 PM",
       items: ["Veg Noodles"],
-      total: 50.0,
+      total: 60.0,
+      status: "Cancelled",
+    },
+    {
+      id: 104,
+      date: "Mar 10, 1:45 PM",
+      items: ["Veg Noodles"],
+      total: 60.0,
       status: "Cancelled",
     },
   ]

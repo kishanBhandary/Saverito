@@ -36,44 +36,392 @@ function App() {
   const foodItems = [
     {
       id: 1,
-      name: "Veg Noodles",
-      category: "Lunch",
+      name: "Masala Dosa",
+      category: "BreakFast",
       price: 50.0,
       image:
-        "./veg.jpeg",
+        "./masaladosa.svg",
+      
     },
     {
       id: 2,
-      name: "Chicken Noodles",
-      category: "Lunch",
-      price: 70.0,
+      name: "Plain Dosa",
+      category: "BreakFast",
+      price: 45.0,
       image:
-        "./non veg.jpeg",
+        "./plaindosa.svg",
     },
     {
       id: 3,
+      name: "Kali Dosa",
+      category: "BreakFast",
+      price: 45.0,
+      image:
+        "./kalidosa.svg",
+    },
+    {
+      id: 4,
+      name: "Ghee Dosa",
+      category: "BreakFast",
+      price: 50.0,
+      image:
+        "./gheedosa.svg",
+    },
+    {
+      id: 5,
+      name: "Onion Uttappa",
+      category: "BreakFast",
+      price: 50.0,
+      image:
+        "./onionuttappa.svg",
+    },
+    {
+      id: 6,
+      name: "Set Dosa",
+      category: "BreakFast",
+      price: 45.0,
+      image:
+        "./setdosa.svg",
+    },
+    {
+      id: 7,
+      name: "Poori Bhaji",
+      category: "BreakFast",
+      price: 50.0,
+      image:
+        "./pooribhaji.svg",
+    },
+    {
+      id: 8,
+      name: "Buns",
+      category: "BreakFast",
+      price: 45.0,
+      image:
+        "./buns.svg",
+    },
+    {
+      id: 9,
+      name: "Bread Omlet",
+      category: "BreakFast",
+      price: 55.0,
+      image:
+        "./breadomlet.svg",
+    },
+   
+    {
+      id: 10,
+      name: "Maggie",
+      category: "BreakFast",
+      price: 30.0,
+      image:
+        "./maggie.svg",
+    },
+    {
+      id: 1,
+      name: "Tea",
+      category: "Drinks",
+      price: 15.0,
+      image:
+        "./tea.svg",
+    },
+    {
+      id: 2,
+      name: "Coffee",
+      category: "Drinks",
+      price: 20.0,
+      image:
+        "./coffee.svg",
+    },
+    {
+      id: 3,
+      name: "Badam Milk",
+      category: "Drinks",
+      price: 20.0,
+      image:
+        "./badammilk.svg",
+    },
+    {
+      id: 4,
+      name: "Black Tea",
+      category: "Drinks",
+      price: 15.0,
+      image:
+        "./blacktea.svg",
+    },
+    {
+      id: 5,
+      name: "Lemon Tea",
+      category: "Drinks",
+      price: 15.0,
+      image:
+        "./lemontea.svg",
+    },
+    {
+      id: 1,
+      name: "Veg meal",
+      category: "Drinks",
+      price: 40.0,
+      image:
+        "./vegmeal.svg",
+    },
+    {
+      id: 2,
+      name: "Ganji Meal",
+      category: "Lunch",
+      price: 40.0,
+      image:
+        "./ganjimeal.svg",
+    },
+    {
+      id: 3,
+      name: "Non-Veg Meal",
+      category: "Lunch",
+      price: 50.0,
+      image:
+        "./nonvegmeal.svg",
+    },
+    {
+      id: 4,
+      name: "Chicken Kabab",
+      category: "Lunch",
+      price: 40.0,
+      image:
+        "./chickenkabab.svg",
+    },
+    {
+      id: 5,
+      name: "Egg Burji",
+      category: "Lunch",
+      price: 40.0,
+      image:
+        "./eggburji.svg",
+    },
+    {
+      id: 6,
+      name: "Omlet",
+      category: "Lunch",
+      price: 30.0,
+      image:
+        "./omlet.svg",
+    },
+    {
+      id: 7,
+      name: "Egg Ghee Roast",
+      category: "Lunch",
+      price: 55.0,
+      image:
+        "./egggheeroast.svg",
+    },
+    {
+      id: 8,
+      name: "Chicken Ghee Roast",
+      category: "Lunch",
+      price: 55.0,
+      image:
+        "./chickengheeroast.svg",
+    },
+    {
+      id: 9,
+      name: "Tomato Rice",
+      category: "Lunch",
+      price: 55.0,
+      image:
+        "./tomatorice.svg",
+    },
+    {
+      id: 10,
+      name: "Lemon Rice",
+      category: "Lunch",
+      price: 55.0,
+      image:
+        "./lemonrice.svg",
+    },
+    {
+      id: 11,
+      name: "Ghee Rice",
+      category: "Lunch",
+      price: 55.0,
+      image:
+        "./gheerice.svg",
+    },
+    {
+      id: 12,
+      name: "Jeera Rice",
+      category: "Lunch",
+      price: 50.0,
+      image:
+        "./jeerarice.svg",
+    },
+    {
+      id: 13,
+      name: "Palak Rice",
+      category: "Lunch",
+      price: 55.0,
+      image:
+        "./palakrice.svg",
+    },
+    {
+      id: 14,
+      name: "Dal Kichidi",
+      category: "Lunch",
+      price: 55.0,
+      image:
+        "./dalkichidi.svg",
+    },
+
+
+
+
+    {
+      id: 15,
+      name: "Veg Fried Rice",
+      category: "Lunch",
+      price: 50.0,
+      image:
+        "./vegfriedrice.svg",
+    },
+    {
+      id: 16,
+      name: "Egg Fried Rice",
+      category: "Lunch",
+      price: 70.0,
+      image:
+        "./eggfriedrice.svg",
+    },
+    {
+      id: 17,
       name: "Chicken Fried Rice",
       category: "Lunch",
       price: 70.0,
       image:
-        "./nonfried.jpeg",
+        "./chickenfriedrice.svg",
     },
     {
-      id: 4,
-      name: "Veg Fried Rice",
+      id: 18,
+      name: "Veg Schezwan Fried Rice",
+      category: "Lunch",
+      price: 60.0,
+      image:
+        "./vegschezwanfriedrice.svg",
+    },
+    {
+      id: 19,
+      name: "Egg Schezwan Fried Rice",
+      category: "Lunch",
+      price: 80.0,
+      image:
+        "./eggschezwanfriedrice.svg",
+    },
+    {
+      id: 20,
+      name: "Chicken Schezwan Fried Rice",
+      category: "Lunch",
+      price: 80.0,
+      image:
+        "./chickenschezwanfriedrice.svg",
+    },
+    {
+      id: 21,
+      name: "Veg Noodles",
       category: "Lunch",
       price: 50.0,
       image:
-        "./vegfried.jpeg",
+        "./vegnoodles.svg",
     },
     {
-      id: 5,
-      name: "Veg Fried Rice",
+      id: 22,
+      name: "Egg Noodles",
       category: "Lunch",
-      price: 50.0,
+      price: 70.0,
       image:
-        "./vegfried.jpeg",
+        "./eggnoodles.svg",
     },
+
+    {
+      id: 23,
+      name: "Chicken Noodles",
+      category: "Lunch",
+      price: 70.0,
+      image:
+        "./chickennoodles.svg",
+    },
+    {
+      id: 24,
+      name: "Veg Schezwan Noodles",
+      category: "Lunch",
+      price: 60.0,
+      image:
+        "./vegschezwannoodles.svg",
+    },
+    {
+      id: 25,
+      name: "Egg Schezwan Noodles",
+      category: "Lunch",
+      price: 80.0,
+      image:
+        "./eggschezwannoodles.svg",
+    },
+    {
+      id: 26,
+      name: "Chicken Schezwan Noodles",
+      category: "Lunch",
+      price: 80.0,
+      image:
+        "./chickenschezwannoodles.svg",
+    },
+    {
+      id: 27,
+      name: "Chicken Chilly",
+      category: "Lunch",
+      price: 90.0,
+      image:
+        "./chickenchilly.svg",
+    },
+    {
+      id: 28,
+      name: "Chicken Manchurian",
+      category: "Lunch",
+      price: 90.0,
+      image:
+        "./chickenmanchurian.svg",
+    },
+    {
+      id: 29,
+      name: "Chicken Pepper",
+      category: "Lunch",
+      price: 90.0,
+      image:
+        "./chickenpepper.svg",
+    },
+    {
+      id: 30,
+      name: "Gobi Manchurian",
+      category: "Lunch",
+      price: 80.0,
+      image:
+        "./gobimanchurian.svg",
+    },
+    {
+      id: 31,
+      name: "Paneer Chilly Manchurian",
+      category: "Lunch",
+      price: 80.0,
+      image:
+        "./paneerchillymanchurian.svg",
+    },
+    {
+      id: 32,
+      name: "Mushroom Chilly",
+      category: "Lunch",
+      price: 85.0,
+      image:
+        "./mushroomchilly.svg",
+    },
+
+
+
+    
+
   ]
 
   // Mock order history data

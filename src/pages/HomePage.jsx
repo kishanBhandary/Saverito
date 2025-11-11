@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from "react"
 
-import PageHeader from "../components/PageHeader"
 import SearchBar from "../components/SearchBar"
 import CategoryFilter from "../components/CategoryFilter"
 import FoodItem from "../components/FoodItem";
-import { foodItems } from "../data/foodItems";
+import { foodItems } from "../data/fooditems";
 
 const HomePage = ({ toggleFavorite, favorites }) => {
   const [activeCategory, setActiveCategory] = useState("All")
@@ -30,60 +29,72 @@ const HomePage = ({ toggleFavorite, favorites }) => {
     return matchesCategory && matchesSearch
   })
 
-  // Adjust layout for better mobile experience
-  useEffect(() => {
-    const handleResize = () => {
-      // Force a small delay to ensure proper layout calculation
-      setTimeout(() => {
-        const foodItems = document.querySelectorAll(".food-item")
-        if (foodItems.length > 0) {
-          // Apply a small animation to make the layout adjustment smoother
-          foodItems.forEach((item, index) => {
-            item.style.opacity = "0"
-            setTimeout(() => {
-              item.style.opacity = "1"
-              item.style.transform = "translateY(0)"
-            }, index * 50)
-          })
-        }
-      }, 100)
-    }
-
-    // Call once on mount
-    handleResize()
-
-    // Add event listener for orientation changes
-    window.addEventListener("orientationchange", handleResize)
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("orientationchange", handleResize)
-    }
-  }, [])
-
   return (
-    <>
-      <PageHeader title="Saverito" subtitle="just for you" />
+    <div className="main-content">
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-container">
+          <h1 className="hero-title">Order food online from restaurants</h1>
+          <p className="hero-subtitle">Discover the best food & drinks in your city</p>
+          <div className="hero-search">
+            <input
+              type="text"
+              placeholder="Search for restaurants, cuisines or dishes"
+              className="hero-search-bar"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </div>
+      </section>
 
-      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-
-      <CategoryFilter
-        categories={categories}
-        activeCategory={activeCategory}
-        handleCategoryChange={handleCategoryChange}
-      />
-
-      <div className="food-items-container">
-        {filteredItems.map((item) => (
-          <FoodItem
-            key={item.id}
-            item={item}
-            isFavorite={favorites.includes(item.id)}
-            toggleFavorite={toggleFavorite}
+      {/* Main Content */}
+      <div className="content-container">
+        {/* Categories Section */}
+        <section className="categories-section">
+          <h2 className="section-title">What's on your mind?</h2>
+          <CategoryFilter
+            categories={categories}
+            activeCategory={activeCategory}
+            handleCategoryChange={handleCategoryChange}
           />
-        ))}
+        </section>
+
+        {/* Search Bar for filtering */}
+        {searchQuery && (
+          <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        )}
+
+        {/* Food Items Section */}
+        <section className="food-items-section">
+          <h2 className="section-title">
+            {activeCategory === "All" 
+              ? "Restaurants with online food delivery" 
+              : `${activeCategory} Restaurants`
+            }
+            <span className="results-count">({filteredItems.length} restaurants)</span>
+          </h2>
+          
+          <div className="food-items-container">
+            {filteredItems.map((item) => (
+              <FoodItem
+                key={item.id}
+                item={item}
+                isFavorite={favorites.includes(item.id)}
+                toggleFavorite={toggleFavorite}
+              />
+            ))}
+          </div>
+          
+          {filteredItems.length === 0 && (
+            <div className="no-results">
+              <h3>No restaurants found</h3>
+              <p>Try adjusting your search or browse our categories</p>
+            </div>
+          )}
+        </section>
       </div>
-    </>
+    </div>
   )
 }
 

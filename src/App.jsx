@@ -3,18 +3,16 @@
 import { useState, useEffect } from "react"
 import "./App.css"
 import Header from "./components/Header"
-import Footer from "./components/Footer"
 import HomePage from "./pages/HomePage"
 import FavoritesPage from "./pages/FavoritesPage"
 import ProfilePage from "./pages/ProfilePage"
 import HistoryPage from "./pages/HistoryPage"
-import { foodItems } from "./data/foodItems"
+import { foodItems } from "./data/fooditems"
 import { orderHistory } from "./data/orderHistory"
 import { userProfile } from "./data/userData"
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [activeFooterTab, setActiveFooterTab] = useState("home")
+  const [activeTab, setActiveTab] = useState("home")
   const [favorites, setFavorites] = useState([])
 
   // Toggle favorite
@@ -25,39 +23,14 @@ function App() {
   // Get favorite items
   const favoriteItems = foodItems.filter((item) => favorites.includes(item.id))
 
-  // Update the handleFooterTabChange function to add the sliding indicator class
-  const handleFooterTabChange = (tab) => {
-    // Add transition animation
-    document.querySelector(".main-content")?.classList.add("page-transition")
-
-    // Update the footer nav class for the sliding indicator
-    const footerNav = document.querySelector(".footer-nav")
-    if (footerNav) {
-      footerNav.classList.remove("home-active", "favorites-active", "profile-active", "history-active")
-      footerNav.classList.add(`${tab}-active`)
-    }
-
-    setTimeout(() => {
-      setActiveFooterTab(tab)
-      // Remove transition class after changing tab
-      setTimeout(() => {
-        document.querySelector(".main-content")?.classList.remove("page-transition")
-      }, 50)
-    }, 300)
+  // Handle tab change
+  const handleTabChange = (tab) => {
+    setActiveTab(tab)
   }
-
-  // Add this useEffect to set the initial footer nav class
-  useEffect(() => {
-    // Set initial footer nav class
-    const footerNav = document.querySelector(".footer-nav")
-    if (footerNav) {
-      footerNav.classList.add(`${activeFooterTab}-active`)
-    }
-  }, [])
 
   // Render different content based on active tab
   const renderContent = () => {
-    switch (activeFooterTab) {
+    switch (activeTab) {
       case "home":
         return <HomePage toggleFavorite={toggleFavorite} favorites={favorites} />
       case "favorites":
@@ -65,7 +38,7 @@ function App() {
           <FavoritesPage
             favoriteItems={favoriteItems}
             toggleFavorite={toggleFavorite}
-            handleFooterTabChange={handleFooterTabChange}
+            handleTabChange={handleTabChange}
           />
         )
       case "profile":
@@ -73,15 +46,75 @@ function App() {
       case "history":
         return <HistoryPage orderHistory={orderHistory} />
       default:
-        return null
+        return <HomePage toggleFavorite={toggleFavorite} favorites={favorites} />
     }
   }
 
   return (
     <div className="app-container">
-      <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-      <main className="main-content">{renderContent()}</main>
-      <Footer activeFooterTab={activeFooterTab} handleFooterTabChange={handleFooterTabChange} favorites={favorites} />
+      <Header />
+      <main>{renderContent()}</main>
+      
+      {/* Website Footer */}
+      <footer className="website-footer">
+        <div className="footer-container">
+          <div className="footer-content">
+            <div className="footer-brand">
+              <div className="footer-logo">
+                <span className="footer-brand-text">🍽️ Saverito</span>
+              </div>
+              <p className="footer-description">
+                Order food online from your favorite restaurants and get it delivered fast to your doorstep.
+              </p>
+              <div className="social-links">
+                <a href="#" className="social-link" aria-label="Facebook">📘</a>
+                <a href="#" className="social-link" aria-label="Instagram">📷</a>
+                <a href="#" className="social-link" aria-label="Twitter">🐦</a>
+                <a href="#" className="social-link" aria-label="LinkedIn">💼</a>
+              </div>
+            </div>
+            
+            <div className="footer-section">
+              <h3>Company</h3>
+              <ul className="footer-links">
+                <li><a href="#" onClick={() => handleTabChange("home")}>Home</a></li>
+                <li><a href="#" onClick={() => handleTabChange("favorites")}>Favorites</a></li>
+                <li><a href="#" onClick={() => handleTabChange("history")}>Order History</a></li>
+                <li><a href="#" onClick={() => handleTabChange("profile")}>Profile</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3>Support</h3>
+              <ul className="footer-links">
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Live Chat</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3>Legal</h3>
+              <ul className="footer-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Refund Policy</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="footer-bottom">
+            <p>&copy; 2025 Saverito. All rights reserved.</p>
+            <div className="footer-links-bottom">
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+              <a href="#">Sitemap</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

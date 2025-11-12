@@ -82,48 +82,84 @@ const DashboardPage = ({ user }) => {
 
   const renderOverview = () => (
     <div className="dashboard-overview">
+      {/* Welcome Section */}
+      <div className="welcome-section">
+        <div className="welcome-content">
+          <h2>🍽️ Welcome back, {user?.name || 'Admin'}!</h2>
+          <p>Here's what's happening at Saverito today. Your restaurant is performing great!</p>
+        </div>
+        <div className="quick-stats">
+          <div className="quick-stat">
+            <span className="stat-number">47</span>
+            <span className="stat-label">Today's Orders</span>
+          </div>
+          <div className="quick-stat">
+            <span className="stat-number">₹12.5K</span>
+            <span className="stat-label">Revenue</span>
+          </div>
+        </div>
+      </div>
+
       {/* Stats Cards */}
       <div className="stats-grid">
         {stats.map((stat, index) => (
           <div key={index} className={`stat-card stat-card-${stat.color}`}>
             <div className="stat-content">
+              <div className="stat-icon-wrapper">
+                <stat.icon size={28} />
+              </div>
               <div className="stat-text">
                 <p className="stat-title">{stat.title}</p>
                 <h3 className="stat-value">{stat.value}</h3>
-                <span className="stat-change positive">{stat.change}</span>
-              </div>
-              <div className="stat-icon">
-                <stat.icon size={24} />
+                <div className="stat-trend">
+                  <span className="stat-change positive">{stat.change}</span>
+                  <span className="stat-period">vs last week</span>
+                </div>
               </div>
             </div>
+            <div className="stat-background"></div>
           </div>
         ))}
       </div>
 
       {/* Quick Actions */}
       <div className="quick-actions">
-        <h3>Quick Actions</h3>
+        <div className="section-header">
+          <h3>⚡ Quick Actions</h3>
+          <p>Manage your restaurant efficiently with these shortcuts</p>
+        </div>
         <div className="action-buttons">
           <button 
             className="action-btn action-btn-primary"
             onClick={() => setActiveTab("menu")}
           >
             <Plus size={20} />
-            Add New Dish
+            <span>Add New Dish</span>
+            <small>Create menu item</small>
           </button>
           <button 
             className="action-btn action-btn-secondary"
             onClick={() => setActiveTab("orders")}
           >
             <Eye size={20} />
-            View All Orders
+            <span>View All Orders</span>
+            <small>Manage orders</small>
           </button>
           <button 
             className="action-btn action-btn-tertiary"
             onClick={() => setActiveTab("analytics")}
           >
             <BarChart3 size={20} />
-            View Analytics
+            <span>View Analytics</span>
+            <small>Business insights</small>
+          </button>
+          <button 
+            className="action-btn action-btn-quaternary"
+            onClick={() => setActiveTab("customers")}
+          >
+            <Users size={20} />
+            <span>Customer Data</span>
+            <small>Manage customers</small>
           </button>
         </div>
       </div>
@@ -131,33 +167,39 @@ const DashboardPage = ({ user }) => {
       {/* Recent Orders */}
       <div className="recent-orders">
         <div className="section-header">
-          <h3>Recent Orders</h3>
+          <div>
+            <h3>📋 Recent Orders</h3>
+            <p>Latest customer orders and their status</p>
+          </div>
           <button 
             className="view-all-btn"
             onClick={() => setActiveTab("orders")}
           >
-            View All
+            View All Orders
           </button>
         </div>
-        <div className="orders-table">
-          <div className="table-header">
-            <span>Order ID</span>
-            <span>Customer</span>
-            <span>Items</span>
-            <span>Amount</span>
-            <span>Time</span>
-            <span>Status</span>
-          </div>
+        <div className="orders-container">
           {recentOrders.map((order) => (
-            <div key={order.id} className="table-row">
-              <span className="order-id">{order.id}</span>
-              <span className="customer-name">{order.customer}</span>
-              <span className="order-items">{order.items}</span>
-              <span className="order-amount">{order.amount}</span>
-              <span className="order-time">{order.time}</span>
-              <span className={`order-status status-${order.status}`}>
-                {order.status}
-              </span>
+            <div key={order.id} className="order-card">
+              <div className="order-header">
+                <div className="order-id">{order.id}</div>
+                <div className={`order-status status-${order.status}`}>
+                  <span className="status-dot"></span>
+                  {order.status === 'preparing' ? '👨‍🍳 Preparing' :
+                   order.status === 'ready' ? '✅ Ready' :
+                   order.status === 'delivered' ? '🚀 Delivered' : '❌ Cancelled'}
+                </div>
+              </div>
+              <div className="order-details">
+                <div className="customer-info">
+                  <h4>{order.customer}</h4>
+                  <p>{order.items}</p>
+                </div>
+                <div className="order-meta">
+                  <span className="order-amount">{order.amount}</span>
+                  <span className="order-time">{order.time}</span>
+                </div>
+              </div>
             </div>
           ))}
         </div>

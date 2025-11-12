@@ -11,6 +11,7 @@ import HistoryPage from "./pages/HistoryPage"
 import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import DashboardPage from "./dashboard/DashboardPage"
+import AdminLoginPage from "./dashboard/AdminLoginPage"
 import { foodItems } from "./data/fooditems"
 import { orderHistory } from "./data/orderHistory"
 import { userProfile } from "./data/userData"
@@ -169,6 +170,26 @@ function App() {
     localStorage.removeItem("saverito_user")
   }
 
+  // Handle admin login success
+  const handleAdminLoginSuccess = (adminData) => {
+    const adminUser = {
+      id: adminData.id,
+      name: adminData.name,
+      email: adminData.email,
+      isAdmin: true,
+      role: adminData.role,
+      permissions: adminData.permissions
+    }
+    
+    setUser(adminUser)
+    setIsAuthenticated(true)
+    localStorage.setItem("saverito_user", JSON.stringify(adminUser))
+    
+    // Navigate to dashboard
+    window.history.pushState({}, '', '/dashboard/admin')
+    setActiveTab('dashboard')
+  }
+
   // Switch between sign in and sign up
   const switchToSignUp = () => {
     setAuthMode("signup")
@@ -182,6 +203,25 @@ function App() {
 
   // Render different content based on active tab
   const renderContent = () => {
+    // Handle direct URL access
+    const currentPath = window.location.pathname
+    
+    // Admin login routes
+    if (currentPath === '/admin/login' || currentPath === '/admin' || currentPath === '/dashboard/admin/login') {
+      return <AdminLoginPage onAdminLoginSuccess={handleAdminLoginSuccess} />
+    }
+    
+    // Dashboard route - check authentication
+    if (currentPath === '/dashboard' || currentPath === '/dashboard/admin') {
+      if (user && user.isAdmin) {
+        return <DashboardPage user={user} />
+      } else {
+        // Redirect to admin login if not authenticated as admin
+        window.history.pushState({}, '', '/admin/login')
+        return <AdminLoginPage onAdminLoginSuccess={handleAdminLoginSuccess} />
+      }
+    }
+
     // Show auth pages if not authenticated and on auth tab
     if (activeTab === "auth") {
       if (authMode === "signup") {

@@ -75,7 +75,7 @@ const MenuManagement = () => {
           <Search size={20} />
           <input
             type="text"
-            placeholder="Search menu items..."
+            placeholder="Search delicious food items..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -87,51 +87,85 @@ const MenuManagement = () => {
             onChange={(e) => setFilterCategory(e.target.value)}
           >
             {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat}>
+                {cat === "All" ? "🍽️ All Items" : 
+                 cat === "Pizza" ? "🍕 Pizza" :
+                 cat === "Burger" ? "🍔 Burger" :
+                 cat === "Chinese" ? "🥡 Chinese" :
+                 cat === "Italian" ? "🍝 Italian" :
+                 cat === "Indian" ? "🍛 Indian" : cat}
+              </option>
             ))}
           </select>
         </div>
       </div>
 
       {/* Menu Items Grid */}
-      <div className="menu-items-grid">
-        {filteredItems.map(item => (
-          <div key={item.id} className="menu-item-card">
-            <div className="item-image">
-              <img src={item.image} alt={item.name} />
-              <div className="item-actions">
-                <button 
-                  className="action-btn edit"
-                  onClick={() => setEditItem(item)}
-                  title="Edit Item"
-                >
-                  <Edit3 size={16} />
-                </button>
-                <button 
-                  className="action-btn delete"
-                  onClick={() => handleDeleteItem(item.id)}
-                  title="Delete Item"
-                >
-                  <Trash2 size={16} />
-                </button>
+      {filteredItems.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-state-icon">🍽️</div>
+          <h3>No menu items found</h3>
+          <p>
+            {searchTerm || filterCategory !== "All" 
+              ? "Try adjusting your search or filter criteria" 
+              : "Start by adding your first delicious menu item!"}
+          </p>
+          {!searchTerm && filterCategory === "All" && (
+            <button 
+              className="add-item-btn"
+              onClick={() => setShowAddModal(true)}
+            >
+              <Plus size={20} />
+              Add Your First Item
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="menu-items-grid">
+          {filteredItems.map(item => (
+            <div key={item.id} className="menu-item-card">
+              <div className="item-image">
+                <img src={item.image} alt={item.name} />
+                <div className="item-actions">
+                  <button 
+                    className="action-btn edit"
+                    onClick={() => setEditItem(item)}
+                    title="Edit Item"
+                  >
+                    <Edit3 size={16} />
+                  </button>
+                  <button 
+                    className="action-btn delete"
+                    onClick={() => handleDeleteItem(item.id)}
+                    title="Delete Item"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              </div>
+              <div className="item-info">
+                <h3>{item.name}</h3>
+                <p className="item-category">
+                  {item.category === "Pizza" ? "🍕" :
+                   item.category === "Burger" ? "🍔" :
+                   item.category === "Chinese" ? "🥡" :
+                   item.category === "Italian" ? "🍝" :
+                   item.category === "Indian" ? "🍛" : "🍽️"} {item.category}
+                </p>
+                <div className="item-details">
+                  <span className="item-price">₹{item.price}</span>
+                  <button 
+                    className={`status-toggle ${item.status}`}
+                    onClick={() => toggleItemStatus(item.id)}
+                  >
+                    {item.status === "available" ? "✅ Available" : "❌ Unavailable"}
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="item-info">
-              <h3>{item.name}</h3>
-              <p className="item-category">{item.category}</p>
-              <div className="item-details">
-                <span className="item-price">₹{item.price}</span>
-                <button 
-                  className={`status-toggle ${item.status}`}
-                  onClick={() => toggleItemStatus(item.id)}
-                >
-                  {item.status === "available" ? "Available" : "Unavailable"}
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Add/Edit Modal */}
       {(showAddModal || editItem) && (
@@ -163,67 +197,151 @@ const ItemForm = ({ item, onSubmit, onCancel }) => {
     description: item?.description || "",
     image: item?.image || "/placeholder.svg"
   })
+  const [errors, setErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {}
+    
+    if (!formData.name.trim()) {
+      newErrors.name = "Item name is required"
+    } else if (formData.name.length < 2) {
+      newErrors.name = "Item name must be at least 2 characters"
+    }
+    
+    if (!formData.price || formData.price <= 0) {
+      newErrors.price = "Price must be greater than 0"
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    onSubmit({ ...item, ...formData, price: Number(formData.price) })
+    
+    if (!validateForm()) {
+      return
+    }
+    
+    setIsSubmitting(true)
+    
+    // Simulate API call delay
+    setTimeout(() => {
+      onSubmit({ ...item, ...formData, price: Number(formData.price) })
+      setIsSubmitting(false)
+    }, 800)
+  }
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }))
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: "" }))
+    }
   }
 
   return (
     <form className="item-form" onSubmit={handleSubmit}>
-      <h3>{item ? "Edit Menu Item" : "Add New Menu Item"}</h3>
+      <h3>
+        {item ? "✏️ Edit Menu Item" : "➕ Add New Menu Item"}
+      </h3>
       
       <div className="form-group">
-        <label>Item Name</label>
+        <label>
+          🍽️ Item Name
+        </label>
         <input
           type="text"
           value={formData.name}
-          onChange={(e) => setFormData({...formData, name: e.target.value})}
+          onChange={(e) => handleInputChange("name", e.target.value)}
+          placeholder="e.g., Margherita Pizza"
           required
         />
+        {errors.name && <span className="form-error">{errors.name}</span>}
       </div>
 
       <div className="form-group">
-        <label>Category</label>
+        <label>
+          📂 Category
+        </label>
         <select
           value={formData.category}
-          onChange={(e) => setFormData({...formData, category: e.target.value})}
+          onChange={(e) => handleInputChange("category", e.target.value)}
           required
         >
-          <option value="Pizza">Pizza</option>
-          <option value="Burger">Burger</option>
-          <option value="Chinese">Chinese</option>
-          <option value="Italian">Italian</option>
-          <option value="Indian">Indian</option>
+          <option value="Pizza">🍕 Pizza</option>
+          <option value="Burger">🍔 Burger</option>
+          <option value="Chinese">🥡 Chinese</option>
+          <option value="Italian">🍝 Italian</option>
+          <option value="Indian">🍛 Indian</option>
+          <option value="Dessert">🍰 Dessert</option>
+          <option value="Beverages">🥤 Beverages</option>
         </select>
       </div>
 
       <div className="form-group">
-        <label>Price (₹)</label>
+        <label>
+          💰 Price (₹)
+        </label>
         <input
           type="number"
           value={formData.price}
-          onChange={(e) => setFormData({...formData, price: e.target.value})}
+          onChange={(e) => handleInputChange("price", e.target.value)}
+          placeholder="250"
           required
-          min="0"
+          min="1"
+          step="1"
+        />
+        {errors.price && <span className="form-error">{errors.price}</span>}
+      </div>
+
+      <div className="form-group">
+        <label>
+          📝 Description (Optional)
+        </label>
+        <textarea
+          value={formData.description}
+          onChange={(e) => handleInputChange("description", e.target.value)}
+          placeholder="Describe your delicious dish..."
+          rows="4"
         />
       </div>
 
       <div className="form-group">
-        <label>Description (Optional)</label>
-        <textarea
-          value={formData.description}
-          onChange={(e) => setFormData({...formData, description: e.target.value})}
-          rows="3"
+        <label>
+          🖼️ Image URL (Optional)
+        </label>
+        <input
+          type="url"
+          value={formData.image}
+          onChange={(e) => handleInputChange("image", e.target.value)}
+          placeholder="https://example.com/image.jpg"
         />
       </div>
 
       <div className="form-actions">
-        <button type="button" className="cancel-btn" onClick={onCancel}>
-          Cancel
+        <button 
+          type="button" 
+          className="cancel-btn" 
+          onClick={onCancel}
+          disabled={isSubmitting}
+        >
+          ❌ Cancel
         </button>
-        <button type="submit" className="submit-btn">
-          {item ? "Update Item" : "Add Item"}
+        <button 
+          type="submit" 
+          className="submit-btn"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <span>
+              ⏳ {item ? "Updating..." : "Adding..."}
+            </span>
+          ) : (
+            <span>
+              {item ? "✅ Update Item" : "✨ Add Item"}
+            </span>
+          )}
         </button>
       </div>
     </form>

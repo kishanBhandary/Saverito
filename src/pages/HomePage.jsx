@@ -7,7 +7,7 @@ import CategoryFilter from "../components/CategoryFilter"
 import FoodItem from "../components/FoodItem";
 import { foodItems } from "../data/fooditems";
 
-const HomePage = ({ toggleFavorite, favorites }) => {
+const HomePage = ({ toggleFavorite, favorites, addToCart }) => {
   const [activeCategory, setActiveCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [animating, setAnimating] = useState(false)
@@ -34,12 +34,12 @@ const HomePage = ({ toggleFavorite, favorites }) => {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-container">
-          <h1 className="hero-title">Order food online from restaurants</h1>
-          <p className="hero-subtitle">Discover the best food & drinks in your city</p>
+          <h1 className="hero-title">Welcome to Saverito Restaurant</h1>
+          <p className="hero-subtitle">Authentic flavors, fresh ingredients, delivered to your doorstep</p>
           <div className="hero-search">
             <input
               type="text"
-              placeholder="Search for restaurants, cuisines or dishes"
+              placeholder="Search our menu items"
               className="hero-search-bar"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -52,7 +52,7 @@ const HomePage = ({ toggleFavorite, favorites }) => {
       <div className="content-container">
         {/* Categories Section */}
         <section className="categories-section">
-          <h2 className="section-title">What's on your mind?</h2>
+          <h2 className="section-title">Our Menu Categories</h2>
           <CategoryFilter
             categories={categories}
             activeCategory={activeCategory}
@@ -69,10 +69,10 @@ const HomePage = ({ toggleFavorite, favorites }) => {
         <section className="food-items-section">
           <h2 className="section-title">
             {activeCategory === "All" 
-              ? "Restaurants with online food delivery" 
-              : `${activeCategory} Restaurants`
+              ? "Our Full Menu" 
+              : `${activeCategory} Items`
             }
-            <span className="results-count">({filteredItems.length} restaurants)</span>
+            <span className="results-count">({filteredItems.length} items available)</span>
           </h2>
           
           <div className="food-items-container">
@@ -82,6 +82,7 @@ const HomePage = ({ toggleFavorite, favorites }) => {
                 item={item}
                 isFavorite={favorites.includes(item.id)}
                 toggleFavorite={toggleFavorite}
+                addToCart={addToCart}
               />
             ))}
           </div>

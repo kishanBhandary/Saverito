@@ -2,8 +2,12 @@
 
 import { Heart, Plus, Star } from "lucide-react"
 
-const FoodItem = ({ item, isFavorite, toggleFavorite }) => {
+const FoodItem = ({ item, isFavorite, toggleFavorite, addToCart }) => {
   const rating = 4.5 + (item.id % 10) * 0.1 // Generate pseudo-random ratings
+
+  const handleAddToCart = () => {
+    addToCart(item, 1)
+  }
 
   return (
     <div className="food-item">
@@ -11,7 +15,11 @@ const FoodItem = ({ item, isFavorite, toggleFavorite }) => {
         <div className="food-item-image">
           <img src={item.image || "/placeholder.svg"} alt={item.name} />
           <div className="image-overlay">
-            <button className="quick-add-button" aria-label="Quick add to cart">
+            <button 
+              className="quick-add-button" 
+              onClick={handleAddToCart}
+              aria-label="Quick add to cart"
+            >
               <Plus size={16} />
             </button>
           </div>
@@ -44,6 +52,11 @@ const FoodItem = ({ item, isFavorite, toggleFavorite }) => {
             <span>🚀 {15 + (item.id % 20)} min</span>
           </div>
         </div>
+
+        <button className="add-to-cart-button" onClick={handleAddToCart}>
+          <Plus size={16} />
+          Add to Cart
+        </button>
       </div>
     </div>
   )

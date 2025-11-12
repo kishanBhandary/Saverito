@@ -12,15 +12,23 @@ import {
   Eye,
   DollarSign,
   Clock,
-  Star
+  Star,
+  Settings,
+  Bell,
+  LogOut,
+  Home,
+  Menu,
+  X
 } from "lucide-react"
 import MenuManagement from "./components/MenuManagement"
 import OrderManagement from "./components/OrderManagement"
 import Analytics from "./components/Analytics"
 import CustomerManagement from "./components/CustomerManagement"
 
-const DashboardPage = ({ user }) => {
+const DashboardPage = ({ user, onLogout, onGoToMainSite }) => {
   const [activeTab, setActiveTab] = useState("overview")
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
 
   // Check if accessing via direct URL
   const isDirectAccess = window.location.pathname === '/dashboard/admin'
@@ -39,6 +47,27 @@ const DashboardPage = ({ user }) => {
         </div>
       </div>
     )
+  }
+
+  // Handle logout
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout() // Call parent logout function
+    } else {
+      // Fallback for direct access
+      localStorage.removeItem('saverito_user')
+      window.location.href = '/'
+    }
+  }
+
+  // Handle going back to main site
+  const handleGoToMainSite = () => {
+    if (onGoToMainSite) {
+      onGoToMainSite() // Call parent navigation function
+    } else {
+      // Fallback for direct access
+      window.location.href = '/'
+    }
   }
 
   const stats = [
@@ -226,66 +255,174 @@ const DashboardPage = ({ user }) => {
 
   return (
     <div className="dashboard-container">
-      {/* Dashboard Header */}
-      <div className="dashboard-header">
-        <div className="dashboard-title">
-          <h1>Restaurant Dashboard</h1>
-          <p>Welcome back, {user?.name || 'Admin'}! Here's what's happening at Saverito today.</p>
-        </div>
-        <div className="dashboard-user">
-          <div className="user-avatar-large">
-            {user?.name?.charAt(0).toUpperCase() || 'A'}
+      {/* Professional Admin Navbar */}
+      <nav className="admin-navbar">
+        <div className="navbar-left">
+          {/* Brand Logo */}
+          <div className="admin-brand">
+            <div className="brand-icon">🍽️</div>
+            <div className="brand-text">
+              <span className="brand-name">Saverito</span>
+              <span className="brand-subtitle">Admin Panel</span>
+            </div>
           </div>
-          <div className="user-info">
-            <p className="user-name">{user?.name || 'Admin User'}</p>
-            <p className="user-role">Restaurant Admin</p>
-          </div>
-        </div>
-      </div>
 
-      {/* Dashboard Navigation */}
-      <nav className="dashboard-nav">
-        <button 
-          className={`nav-tab ${activeTab === "overview" ? "active" : ""}`}
-          onClick={() => setActiveTab("overview")}
-        >
-          <BarChart3 size={20} />
-          Overview
-        </button>
-        <button 
-          className={`nav-tab ${activeTab === "menu" ? "active" : ""}`}
-          onClick={() => setActiveTab("menu")}
-        >
-          <Edit3 size={20} />
-          Menu Management
-        </button>
-        <button 
-          className={`nav-tab ${activeTab === "orders" ? "active" : ""}`}
-          onClick={() => setActiveTab("orders")}
-        >
-          <ShoppingBag size={20} />
-          Orders
-        </button>
-        <button 
-          className={`nav-tab ${activeTab === "analytics" ? "active" : ""}`}
-          onClick={() => setActiveTab("analytics")}
-        >
-          <TrendingUp size={20} />
-          Analytics
-        </button>
-        <button 
-          className={`nav-tab ${activeTab === "customers" ? "active" : ""}`}
-          onClick={() => setActiveTab("customers")}
-        >
-          <Users size={20} />
-          Customers
-        </button>
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="mobile-menu-toggle"
+            onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+          >
+            {isMobileNavOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Navigation Links */}
+        <div className={`navbar-center ${isMobileNavOpen ? 'mobile-nav-open' : ''}`}>
+          <button 
+            className={`nav-link ${activeTab === "overview" ? "active" : ""}`}
+            onClick={() => {
+              setActiveTab("overview")
+              setIsMobileNavOpen(false)
+            }}
+          >
+            <BarChart3 size={20} />
+            <span>Overview</span>
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "menu" ? "active" : ""}`}
+            onClick={() => {
+              setActiveTab("menu")
+              setIsMobileNavOpen(false)
+            }}
+          >
+            <Edit3 size={20} />
+            <span>Menu</span>
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "orders" ? "active" : ""}`}
+            onClick={() => {
+              setActiveTab("orders")
+              setIsMobileNavOpen(false)
+            }}
+          >
+            <ShoppingBag size={20} />
+            <span>Orders</span>
+            <span className="notification-badge">3</span>
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "analytics" ? "active" : ""}`}
+            onClick={() => {
+              setActiveTab("analytics")
+              setIsMobileNavOpen(false)
+            }}
+          >
+            <TrendingUp size={20} />
+            <span>Analytics</span>
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "customers" ? "active" : ""}`}
+            onClick={() => {
+              setActiveTab("customers")
+              setIsMobileNavOpen(false)
+            }}
+          >
+            <Users size={20} />
+            <span>Customers</span>
+          </button>
+        </div>
+
+        {/* Right Side Actions */}
+        <div className="navbar-right">
+          {/* Notifications */}
+          <div className="notification-dropdown">
+            <button 
+              className="notification-btn"
+              onClick={() => setShowNotifications(!showNotifications)}
+            >
+              <Bell size={20} />
+              <span className="notification-dot"></span>
+            </button>
+            {showNotifications && (
+              <div className="notification-panel">
+                <div className="notification-header">
+                  <h4>Notifications</h4>
+                </div>
+                <div className="notification-list">
+                  <div className="notification-item">
+                    <div className="notification-icon preparing">👨‍🍳</div>
+                    <div className="notification-content">
+                      <p>3 orders are being prepared</p>
+                      <span>2 minutes ago</span>
+                    </div>
+                  </div>
+                  <div className="notification-item">
+                    <div className="notification-icon ready">✅</div>
+                    <div className="notification-content">
+                      <p>Order #ORD002 is ready for pickup</p>
+                      <span>5 minutes ago</span>
+                    </div>
+                  </div>
+                  <div className="notification-item">
+                    <div className="notification-icon customer">👥</div>
+                    <div className="notification-content">
+                      <p>New customer registered</p>
+                      <span>10 minutes ago</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Admin Profile Dropdown */}
+          <div className="admin-profile">
+            <div className="profile-info">
+              <span className="admin-name">{user?.name || 'Admin'}</span>
+              <span className="admin-role">Restaurant Admin</span>
+            </div>
+            <div className="profile-avatar">
+              {user?.name?.charAt(0).toUpperCase() || 'A'}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="navbar-actions">
+            <button 
+              className="action-button home-btn"
+              onClick={handleGoToMainSite}
+              title="Go to Main Site"
+            >
+              <Home size={18} />
+            </button>
+            <button 
+              className="action-button settings-btn"
+              title="Settings"
+            >
+              <Settings size={18} />
+            </button>
+            <button 
+              className="action-button logout-btn"
+              onClick={handleLogout}
+              title="Logout"
+            >
+              <LogOut size={18} />
+            </button>
+          </div>
+        </div>
       </nav>
 
       {/* Dashboard Content */}
-      <main className="dashboard-content">
+      <main className="dashboard-main-content">
         {renderContent()}
       </main>
+
+      {/* Mobile Navigation Overlay */}
+      {isMobileNavOpen && (
+        <div 
+          className="mobile-nav-overlay"
+          onClick={() => setIsMobileNavOpen(false)}
+        ></div>
+      )}
     </div>
   )
 }

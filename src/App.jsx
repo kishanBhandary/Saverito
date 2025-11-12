@@ -162,6 +162,22 @@ function App() {
     localStorage.setItem("saverito_user", JSON.stringify(userData))
   }
 
+  // Handle admin logout
+  const handleAdminLogout = () => {
+    setUser(null)
+    setIsAuthenticated(false)
+    setActiveTab("home")
+    localStorage.removeItem("saverito_user")
+    // Navigate back to main site
+    window.history.pushState({}, '', '/')
+  }
+
+  // Handle going to main site from dashboard
+  const handleGoToMainSite = () => {
+    setActiveTab("home")
+    window.history.pushState({}, '', '/')
+  }
+
   // Handle sign out
   const handleSignOut = () => {
     setUser(null)
@@ -214,7 +230,11 @@ function App() {
     // Dashboard route - check authentication
     if (currentPath === '/dashboard' || currentPath === '/dashboard/admin') {
       if (user && user.isAdmin) {
-        return <DashboardPage user={user} />
+        return <DashboardPage 
+          user={user} 
+          onLogout={handleAdminLogout}
+          onGoToMainSite={handleGoToMainSite}
+        />
       } else {
         // Redirect to admin login if not authenticated as admin
         window.history.pushState({}, '', '/admin/login')
@@ -267,7 +287,11 @@ function App() {
           />
         )
       case "dashboard":
-        return <DashboardPage user={user} />
+        return <DashboardPage 
+          user={user} 
+          onLogout={handleAdminLogout}
+          onGoToMainSite={handleGoToMainSite}
+        />
       case "profile":
         return <ProfilePage userProfile={user || userProfile} />
       case "history":
@@ -281,79 +305,87 @@ function App() {
     }
   }
 
+  // Check if we're in admin dashboard mode
+  const isAdminDashboard = (user && user.isAdmin && (activeTab === "dashboard" || window.location.pathname.includes('/dashboard')))
+
   return (
     <div className="app-container">
-      <Header 
-        user={user}
-        isAuthenticated={isAuthenticated}
-        onSignOut={handleSignOut}
-        onSwitchToSignIn={switchToSignIn}
-        onSwitchToSignUp={switchToSignUp}
-        onTabChange={handleTabChange}
-        cartCount={getCartCount()}
-      />
+      {/* Only show main website header if not in admin dashboard */}
+      {!isAdminDashboard && (
+        <Header 
+          user={user}
+          isAuthenticated={isAuthenticated}
+          onSignOut={handleSignOut}
+          onSwitchToSignIn={switchToSignIn}
+          onSwitchToSignUp={switchToSignUp}
+          onTabChange={handleTabChange}
+          cartCount={getCartCount()}
+        />
+      )}
       <main>{renderContent()}</main>
       
-      {/* Website Footer */}
-      <footer className="website-footer">
-        <div className="footer-container">
-          <div className="footer-content">
-            <div className="footer-brand">
-              <div className="footer-logo">
-                <span className="footer-brand-text">🍽️ Saverito</span>
+      {/* Only show website footer if not in admin dashboard */}
+      {!isAdminDashboard && (
+        <footer className="website-footer">
+          <div className="footer-container">
+            <div className="footer-content">
+              <div className="footer-brand">
+                <div className="footer-logo">
+                  <span className="footer-brand-text">🍽️ Saverito</span>
+                </div>
+                <p className="footer-description">
+                  Order food online from your favorite restaurants and get it delivered fast to your doorstep.
+                </p>
+                <div className="social-links">
+                  <a href="#" className="social-link" aria-label="Facebook">📘</a>
+                  <a href="#" className="social-link" aria-label="Instagram">📷</a>
+                  <a href="#" className="social-link" aria-label="Twitter">🐦</a>
+                  <a href="#" className="social-link" aria-label="LinkedIn">💼</a>
+                </div>
               </div>
-              <p className="footer-description">
-                Order food online from your favorite restaurants and get it delivered fast to your doorstep.
-              </p>
-              <div className="social-links">
-                <a href="#" className="social-link" aria-label="Facebook">📘</a>
-                <a href="#" className="social-link" aria-label="Instagram">📷</a>
-                <a href="#" className="social-link" aria-label="Twitter">🐦</a>
-                <a href="#" className="social-link" aria-label="LinkedIn">💼</a>
+              
+              <div className="footer-section">
+                <h3>Company</h3>
+                <ul className="footer-links">
+                  <li><a href="#" onClick={() => handleTabChange("home")}>Home</a></li>
+                  <li><a href="#" onClick={() => handleTabChange("favorites")}>Favorites</a></li>
+                  <li><a href="#" onClick={() => handleTabChange("history")}>Order History</a></li>
+                  <li><a href="#" onClick={() => handleTabChange("profile")}>Profile</a></li>
+                </ul>
+              </div>
+              
+              <div className="footer-section">
+                <h3>Support</h3>
+                <ul className="footer-links">
+                  <li><a href="#">Help Center</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                  <li><a href="#">FAQs</a></li>
+                  <li><a href="#">Live Chat</a></li>
+                </ul>
+              </div>
+              
+              <div className="footer-section">
+                <h3>Legal</h3>
+                <ul className="footer-links">
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">Cookie Policy</a></li>
+                  <li><a href="#">Refund Policy</a></li>
+                </ul>
               </div>
             </div>
             
-            <div className="footer-section">
-              <h3>Company</h3>
-              <ul className="footer-links">
-                <li><a href="#" onClick={() => handleTabChange("home")}>Home</a></li>
-                <li><a href="#" onClick={() => handleTabChange("favorites")}>Favorites</a></li>
-                <li><a href="#" onClick={() => handleTabChange("history")}>Order History</a></li>
-                <li><a href="#" onClick={() => handleTabChange("profile")}>Profile</a></li>
-              </ul>
-            </div>
-            
-            <div className="footer-section">
-              <h3>Support</h3>
-              <ul className="footer-links">
-                <li><a href="#">Help Center</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">FAQs</a></li>
-                <li><a href="#">Live Chat</a></li>
-              </ul>
-            </div>
-            
-            <div className="footer-section">
-              <h3>Legal</h3>
-              <ul className="footer-links">
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Cookie Policy</a></li>
-                <li><a href="#">Refund Policy</a></li>
-              </ul>
+            <div className="footer-bottom">
+              <p>&copy; 2025 Saverito. All rights reserved.</p>
+              <div className="footer-links-bottom">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Sitemap</a>
+              </div>
             </div>
           </div>
-          
-          <div className="footer-bottom">
-            <p>&copy; 2025 Saverito. All rights reserved.</p>
-            <div className="footer-links-bottom">
-              <a href="#">Privacy</a>
-              <a href="#">Terms</a>
-              <a href="#">Sitemap</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </div>
   )
 }

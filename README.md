@@ -37,6 +37,6 @@ Contributions are welcome! Feel free to submit a pull request or open an issue.
 This project is licensed under the MIT License.
 
 ---
-Made with ❤️ by Kishan ,Lavanya,Ashish,Jeevitha,Thansihka
+Made with ❤️ by Kishan ,Lavanya
 
 

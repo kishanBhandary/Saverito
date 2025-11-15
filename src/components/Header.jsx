@@ -1,6 +1,6 @@
 "use client"
 
-import { ShoppingCart, User, LogOut } from "lucide-react"
+import { ShoppingCart, User, LogOut, Heart, History, BarChart3 } from "lucide-react"
 import { useState } from "react"
 
 const Header = ({ 
@@ -42,90 +42,125 @@ const Header = ({
   }
 
   return (
-    <header className="header">
-      <div className="header-container">
+    <header className="modern-header">
+      <div className="modern-header-container">
         <div className="header-left">
-          <a href="#" onClick={() => onTabChange("home")} className="header-brand">
-            <span className="brand-logo">🍽️</span>
-            <span className="brand-text">Saverito</span>
+          <a href="#" onClick={() => onTabChange("home")} className="modern-brand">
+            <div className="brand-icon">
+              <span className="brand-emoji">🍽️</span>
+            </div>
+            <div className="brand-content">
+              <span className="brand-name">Saverito</span>
+              <span className="brand-tagline">Campus Food Hub</span>
+            </div>
           </a>
         </div>
         
-        <div className="header-right">
-          <nav className="header-nav">
-            {!isAuthenticated ? (
-              <>
-                <button onClick={handleSignInClick} className="nav-item">
-                  <User size={18} />
-                  Sign In
-                </button>
-                <button onClick={handleSignUpClick} className="nav-item signup-btn">
-                  Sign Up
-                </button>
-              </>
-            ) : (
-              <>
-                <a href="#" onClick={() => onTabChange("favorites")} className="nav-item">
-                  ❤️ Favorites
-                </a>
-                <a href="#" onClick={() => onTabChange("history")} className="nav-item">
-                  📋 Orders
-                </a>
-                {isAdmin && (
-                  <a href="#" onClick={() => onTabChange("dashboard")} className="nav-item admin-link">
-                    📊 Dashboard
-                  </a>
-                )}
-                <a href="#" onClick={() => onTabChange("cart")} className="nav-item cart-link">
-                  <div className="cart-icon-container">
-                    <ShoppingCart size={18} />
-                    {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-                  </div>
-                  Cart
-                </a>
-              </>
-            )}
-          </nav>
-          
+        <div className="header-center">
           {isAuthenticated && (
-            <div className="user-menu-container">
-              <button onClick={handleUserMenuToggle} className="user-avatar">
-                {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
-              </button>
-              
-              {showUserMenu && (
-                <div className="user-menu">
-                  <div className="user-menu-header">
-                    <div className="user-info">
-                      <p className="user-name">{user?.name || 'User'}</p>
-                      <p className="user-email">{user?.email || ''}</p>
-                    </div>
-                  </div>
-                  <div className="user-menu-divider"></div>
-                  <div className="user-menu-items">
-                    <button onClick={handleProfileClick} className="user-menu-item">
-                      <User size={16} />
-                      Profile
-                    </button>
-                    <button onClick={() => { onTabChange("history"); setShowUserMenu(false); }} className="user-menu-item">
-                      📋 Order History
-                    </button>
-                    <button onClick={() => { onTabChange("favorites"); setShowUserMenu(false); }} className="user-menu-item">
-                      ❤️ Favorites
-                    </button>
-                    {isAdmin && (
-                      <button onClick={() => { onTabChange("dashboard"); setShowUserMenu(false); }} className="user-menu-item admin-menu-item">
-                        📊 Dashboard
-                      </button>
-                    )}
-                    <div className="user-menu-divider"></div>
-                    <button onClick={handleSignOutClick} className="user-menu-item logout">
-                      <LogOut size={16} />
-                      Sign Out
-                    </button>
-                  </div>
-                </div>
+            <nav className="modern-nav">
+              <a href="#" onClick={() => onTabChange("favorites")} className="modern-nav-item favorites">
+                <Heart size={18} />
+                <span>Favorites</span>
+              </a>
+              <a href="#" onClick={() => onTabChange("history")} className="modern-nav-item history">
+                <History size={18} />
+                <span>Orders</span>
+              </a>
+              {isAdmin && (
+                <a href="#" onClick={() => onTabChange("dashboard")} className="modern-nav-item dashboard">
+                  <BarChart3 size={18} />
+                  <span>Dashboard</span>
+                </a>
               )}
+            </nav>
+          )}
+        </div>
+        
+        <div className="header-right">
+          {!isAuthenticated ? (
+            <div className="auth-buttons">
+              <button onClick={handleSignInClick} className="auth-btn signin-btn">
+                <User size={18} />
+                Sign In
+              </button>
+              <button onClick={handleSignUpClick} className="auth-btn signup-btn">
+                Sign Up
+              </button>
+            </div>
+          ) : (
+            <div className="authenticated-section">
+              <a href="#" onClick={() => onTabChange("cart")} className="cart-button">
+                <div className="cart-icon-wrapper">
+                  <ShoppingCart size={20} />
+                  {cartCount > 0 && (
+                    <div className="cart-badge-modern">
+                      <span>{cartCount}</span>
+                    </div>
+                  )}
+                </div>
+                <span className="cart-text">Cart</span>
+              </a>
+              
+              <div className="user-section">
+                <button onClick={handleUserMenuToggle} className="modern-user-avatar">
+                  <div className="avatar-content">
+                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                  </div>
+                  <div className="user-info-preview">
+                    <span className="user-name-preview">{user?.name || 'User'}</span>
+                    <span className="user-status">Online</span>
+                  </div>
+                </button>
+                
+                {showUserMenu && (
+                  <>
+                    <div className="menu-backdrop" onClick={() => setShowUserMenu(false)}></div>
+                    <div className="modern-user-menu">
+                      <div className="user-menu-header-modern">
+                        <div className="user-avatar-large">
+                          {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                        <div className="user-details">
+                          <h4 className="user-name-large">{user?.name || 'User'}</h4>
+                          <p className="user-email-modern">{user?.email || ''}</p>
+                          <div className="user-badge">Student Member</div>
+                        </div>
+                      </div>
+                      
+                      <div className="menu-divider"></div>
+                      
+                      <div className="menu-items-modern">
+                        <button onClick={handleProfileClick} className="menu-item-modern">
+                          <User size={18} />
+                          <span>My Profile</span>
+                        </button>
+                        <button onClick={() => { onTabChange("history"); setShowUserMenu(false); }} className="menu-item-modern">
+                          <History size={18} />
+                          <span>Order History</span>
+                        </button>
+                        <button onClick={() => { onTabChange("favorites"); setShowUserMenu(false); }} className="menu-item-modern">
+                          <Heart size={18} />
+                          <span>Saved Favorites</span>
+                        </button>
+                        {isAdmin && (
+                          <button onClick={() => { onTabChange("dashboard"); setShowUserMenu(false); }} className="menu-item-modern admin-item">
+                            <BarChart3 size={18} />
+                            <span>Admin Dashboard</span>
+                          </button>
+                        )}
+                        
+                        <div className="menu-divider"></div>
+                        
+                        <button onClick={handleSignOutClick} className="menu-item-modern logout-item">
+                          <LogOut size={18} />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           )}
         </div>
